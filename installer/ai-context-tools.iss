@@ -3,7 +3,7 @@
 ; Creates right-click context menu integration for Windows
 
 #define MyAppName "AI Context Menu Tools"
-#define MyAppVersion "1.1.0"
+#define MyAppVersion "1.2.0"
 #define MyAppPublisher "AI Context Tools Contributors"
 #define MyAppURL "https://github.com/okz247/ai-context-tools"
 
@@ -47,6 +47,9 @@ Name: "ai_convert"; Description: "AI-Assisted Conversion - Let AI help you conve
 [Files]
 ; Always-installed generic icon for parent "AI Tools" menu
 Source: "..\ai-tools.ico"; DestDir: "{app}"; Flags: ignoreversion
+
+; Dependency installer helper
+Source: "..\install-dependencies.bat"; DestDir: "{app}"; Flags: ignoreversion
 
 ; Claude Windows Native
 Source: "..\claude-code\claude-code-windows\claude.bat"; DestDir: "{app}\claude-windows"; Flags: ignoreversion; Components: claude_windows
@@ -273,8 +276,8 @@ begin
     DetectionMsg := DetectionMsg + '• Codex CLI: NOT FOUND ✗' + #13#10;
 
   DetectionMsg := DetectionMsg + #13#10 +
-    'You can still install context menu entries for tools that are not yet installed. ' +
-    'Just make sure to install the CLI tool later using npm or your package manager.';
+    'Missing a tool? After installation, run "Install Dependencies.bat" from the Start Menu ' +
+    'to easily install Claude Code, Gemini, or Codex CLI.';
 
   // Create detection results page
   DetectionPage := CreateOutputMsgPage(wpWelcome,
@@ -421,7 +424,10 @@ end;
 
 [Icons]
 Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
+Name: "{group}\Install Dependencies"; Filename: "{app}\install-dependencies.bat"; Comment: "Install Claude Code, Gemini, or Codex CLI"
 
 [Run]
+; Optional: Run dependency installer after installation if no AI tools detected
+Filename: "{app}\install-dependencies.bat"; Description: "Install AI CLI tools (Claude Code, Gemini, Codex)"; Flags: postinstall shellexec skipifsilent unchecked
 ; Optional: Open GitHub repo after installation
-Filename: "{#MyAppURL}"; Description: "Visit the project on GitHub"; Flags: postinstall shellexec skipifsilent
+Filename: "{#MyAppURL}"; Description: "Visit the project on GitHub"; Flags: postinstall shellexec skipifsilent unchecked

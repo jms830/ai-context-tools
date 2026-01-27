@@ -3,7 +3,7 @@
 ; Creates right-click context menu integration for Windows
 
 #define MyAppName "AI Context Menu Tools"
-#define MyAppVersion "1.2.0"
+#define MyAppVersion "1.3.0"
 #define MyAppPublisher "AI Context Tools Contributors"
 #define MyAppURL "https://github.com/okz247/ai-context-tools"
 
@@ -79,7 +79,8 @@ Source: "..\codex-cli\codex.ico"; DestDir: "{app}\codex-wsl"; Flags: ignoreversi
 ; AI-Assisted Conversion
 Source: "..\ai-convert\ai-convert.bat"; DestDir: "{app}\ai-convert"; Flags: ignoreversion; Components: ai_convert
 Source: "..\ai-convert\ai-convert.ico"; DestDir: "{app}\ai-convert"; Flags: ignoreversion; Components: ai_convert
-Source: "..\ai-convert\CLAUDE.md"; DestDir: "{app}\ai-convert"; Flags: ignoreversion; Components: ai_convert
+Source: "..\ai-convert\AGENTS.md"; DestDir: "{app}\ai-convert"; Flags: ignoreversion; Components: ai_convert
+Source: "..\ai-convert\config.example.bat"; DestDir: "{app}\ai-convert"; Flags: ignoreversion; Components: ai_convert
 
 [Registry]
 ; ========== AI TOOLS SUBMENU FOR FOLDERS ==========

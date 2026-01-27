@@ -70,14 +70,29 @@ Based on analysis, recommend specific settings:
 - **slow/p7**: Better quality, slower
 
 ### Step 4: Execute Conversion
-Run the conversion command and monitor progress:
+Run the conversion command with progress feedback:
 
 ```bash
-# Show progress
-ffmpeg -i input.mp4 -c:v libx265 -preset medium -crf 23 -c:a aac output.mp4 -progress pipe:1
+# ALWAYS use -stats to show progress (frame count, speed, time remaining)
+ffmpeg -i input.mp4 -c:v libx265 -preset medium -crf 23 -c:a aac output.mp4 -stats
 
-# For batch conversion
-for f in *.mp4; do ffmpeg -i "$f" -c:v libx265 -crf 23 "${f%.mp4}_h265.mp4"; done
+# For long videos, tell the user:
+# "This may take a few minutes. You'll see progress updates below."
+```
+
+**Important UX Notes:**
+- Before starting, tell the user the estimated time (based on duration and preset)
+- Use `-stats` flag so user sees live progress
+- After completion, ALWAYS show before/after file sizes
+- If it will take >5 minutes, mention they can do other things while waiting
+
+```bash
+# For batch conversion - show which file is being processed
+for f in *.mp4; do 
+    echo "Converting: $f"
+    ffmpeg -i "$f" -c:v libx265 -crf 23 -stats "${f%.mp4}_h265.mp4"
+    echo "Done: $f"
+done
 ```
 
 ### Step 5: Verify Results

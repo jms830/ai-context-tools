@@ -3,7 +3,7 @@
 ; Creates right-click context menu integration for Windows
 
 #define MyAppName "AI Context Menu Tools"
-#define MyAppVersion "1.0.0"
+#define MyAppVersion "1.1.0"
 #define MyAppPublisher "AI Context Tools Contributors"
 #define MyAppURL "https://github.com/okz247/ai-context-tools"
 
@@ -42,6 +42,7 @@ Name: "gemini_windows"; Description: "Gemini CLI (Windows Native) - PowerShell e
 Name: "gemini_wsl"; Description: "Gemini CLI (WSL) - For Windows Subsystem for Linux users"; Types: full
 Name: "codex_windows"; Description: "Codex CLI (Windows Native) - PowerShell execution"; Types: full
 Name: "codex_wsl"; Description: "Codex CLI (WSL) - For Windows Subsystem for Linux users"; Types: full
+Name: "ai_convert"; Description: "AI-Assisted Conversion - Let AI help you convert files intelligently"; Types: full
 
 [Files]
 ; Always-installed generic icon for parent "AI Tools" menu
@@ -71,6 +72,11 @@ Source: "..\codex-cli\codex.ico"; DestDir: "{app}\codex-windows"; Flags: ignorev
 ; Codex WSL
 Source: "..\codex-cli\codex-wsl.bat"; DestDir: "{app}\codex-wsl"; Flags: ignoreversion; Components: codex_wsl
 Source: "..\codex-cli\codex.ico"; DestDir: "{app}\codex-wsl"; Flags: ignoreversion skipifsourcedoesntexist; Components: codex_wsl
+
+; AI-Assisted Conversion
+Source: "..\ai-convert\ai-convert.bat"; DestDir: "{app}\ai-convert"; Flags: ignoreversion; Components: ai_convert
+Source: "..\ai-convert\ai-convert.ico"; DestDir: "{app}\ai-convert"; Flags: ignoreversion; Components: ai_convert
+Source: "..\ai-convert\CLAUDE.md"; DestDir: "{app}\ai-convert"; Flags: ignoreversion; Components: ai_convert
 
 [Registry]
 ; ========== AI TOOLS SUBMENU FOR FOLDERS ==========
@@ -195,6 +201,11 @@ Root: HKCR; Subkey: "*\shell\AITools\shell\Codex\command"; ValueType: string; Va
 Root: HKCR; Subkey: "*\shell\AITools\shell\CodexWSL"; ValueType: string; ValueName: ""; ValueData: "Codex (WSL)"; Components: codex_wsl
 Root: HKCR; Subkey: "*\shell\AITools\shell\CodexWSL"; ValueType: string; ValueName: "Icon"; ValueData: "{app}\codex-wsl\codex.ico,0"; Components: codex_wsl
 Root: HKCR; Subkey: "*\shell\AITools\shell\CodexWSL\command"; ValueType: string; ValueName: ""; ValueData: """{app}\codex-wsl\codex-wsl.bat"" ""%1"""; Components: codex_wsl
+
+; AI-Assisted Conversion (FILES ONLY - this is the main use case)
+Root: HKCR; Subkey: "*\shell\AITools\shell\AIConvert"; ValueType: string; ValueName: ""; ValueData: "Convert with AI Help"; Components: ai_convert
+Root: HKCR; Subkey: "*\shell\AITools\shell\AIConvert"; ValueType: string; ValueName: "Icon"; ValueData: "{app}\ai-convert\ai-convert.ico,0"; Components: ai_convert
+Root: HKCR; Subkey: "*\shell\AITools\shell\AIConvert\command"; ValueType: string; ValueName: ""; ValueData: """{app}\ai-convert\ai-convert.bat"" ""%1"""; Components: ai_convert
 
 [Code]
 var
